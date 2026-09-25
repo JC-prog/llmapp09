@@ -24,3 +24,5 @@ CVE-2026-76642
 CVE-2026-78408
 CVE-2026-78409
 CVE-2026-78410
+# systemd: local privesc via systemd-homed, no fix available upstream (status: affected)
+CVE-2026-16742
