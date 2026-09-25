@@ -1,12 +1,7 @@
-import json
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
-from app.dto.classification_response import ClassificationResponse
-from app.dto.intent_response import IntentResponse
-from app.dto.sentiment_response import SentimentResponse
-from app.dto.summary_response import SummaryResponse
 from app.service.ai_service import AIService
 
 

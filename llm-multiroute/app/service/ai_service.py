@@ -1,6 +1,5 @@
 import json
 import re
-from typing import Optional
 
 import httpx
 
@@ -15,8 +14,8 @@ from app.router.model_router import ModelRouter, TaskType, model_router
 class AIService:
     def __init__(
         self,
-        http_client: Optional[httpx.Client] = None,
-        router: Optional[ModelRouter] = None,
+        http_client: httpx.Client | None = None,
+        router: ModelRouter | None = None,
     ):
         self.http_client = http_client or httpx.Client(timeout=120.0)
         self.base_url = settings.OLLAMA_BASE_URL
