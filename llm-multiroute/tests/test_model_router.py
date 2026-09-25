@@ -13,17 +13,17 @@ class TestModelRouter:
     def test_get_model_sentiment(self):
         router = ModelRouter()
         model = router.get_model(TaskType.SENTIMENT)
-        assert model == "glm-5.2:cloud"
+        assert model == "gemma4:31b-cloud"
 
     def test_get_model_summarize(self):
         router = ModelRouter()
         model = router.get_model(TaskType.SUMMARIZE)
-        assert model == "mistral-large-3:675b-cloud"
+        assert model == "gemma4:31b-cloud"
 
     def test_get_model_intent(self):
         router = ModelRouter()
         model = router.get_model(TaskType.INTENT)
-        assert model == "minimax-m3:cloud"
+        assert model == "gemma4:31b-cloud"
 
     def test_get_routes_returns_all_tasks(self):
         router = ModelRouter()
@@ -38,15 +38,19 @@ class TestModelRouter:
         router = ModelRouter()
         routes = router.get_routes()
         assert routes["classify"] == "gemma4:31b-cloud"
-        assert routes["sentiment"] == "glm-5.2:cloud"
-        assert routes["summarize"] == "mistral-large-3:675b-cloud"
-        assert routes["intent"] == "minimax-m3:cloud"
+        assert routes["sentiment"] == "gemma4:31b-cloud"
+        assert routes["summarize"] == "gemma4:31b-cloud"
+        assert routes["intent"] == "gemma4:31b-cloud"
 
     def test_each_task_has_unique_model(self):
+        # Temporarily all 4 tasks share one model (free-tier constraint - see
+        # app/config.py), so this checks the routing table is complete rather
+        # than requiring distinct models per task.
         router = ModelRouter()
         routes = router.get_routes()
         models = list(routes.values())
-        assert len(models) == len(set(models)), "Each task should route to a different model"
+        assert len(models) == 4
+        assert all(m == "gemma4:31b-cloud" for m in models)
 
 
 class TestModelRouterCustomConfig:
