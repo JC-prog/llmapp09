@@ -14,12 +14,11 @@ def mock_http_client():
 @pytest.fixture
 def mock_router():
     router = MagicMock(spec=ModelRouter)
-    # All 4 tasks temporarily share gemma4:31b-cloud - see app/config.py for why.
     router.get_model.side_effect = lambda t: {
         TaskType.CLASSIFY: "gemma4:31b-cloud",
-        TaskType.SENTIMENT: "gemma4:31b-cloud",
-        TaskType.SUMMARIZE: "gemma4:31b-cloud",
-        TaskType.INTENT: "gemma4:31b-cloud",
+        TaskType.SENTIMENT: "glm-5.2:cloud",
+        TaskType.SUMMARIZE: "mistral-large-3:675b-cloud",
+        TaskType.INTENT: "minimax-m3:cloud",
     }[t]
     return router
 
@@ -113,7 +112,7 @@ class TestAnalyzeSentiment:
 
         call_args = mock_http_client.post.call_args
         body = call_args.kwargs.get("json") or call_args[1].get("json")
-        assert body["model"] == "gemma4:31b-cloud"
+        assert body["model"] == "glm-5.2:cloud"
 
     def test_negative_sentiment(self, ai_service, mock_http_client):
         json_response = '{"overallSentiment": "negative", "sentimentScore": -0.75, "emotions": ["anger", "disappointment"], "confidence": 0.88}'
@@ -164,7 +163,7 @@ class TestSummarizeText:
 
         call_args = mock_http_client.post.call_args
         body = call_args.kwargs.get("json") or call_args[1].get("json")
-        assert body["model"] == "gemma4:31b-cloud"
+        assert body["model"] == "mistral-large-3:675b-cloud"
 
     def test_single_key_point(self, ai_service, mock_http_client):
         json_response = '{"summary": "Brief summary.", "keyPoints": ["Main point"], "wordCount": 2}'
@@ -211,7 +210,7 @@ class TestDetectIntent:
 
         call_args = mock_http_client.post.call_args
         body = call_args.kwargs.get("json") or call_args[1].get("json")
-        assert body["model"] == "gemma4:31b-cloud"
+        assert body["model"] == "minimax-m3:cloud"
 
     def test_command_intent(self, ai_service, mock_http_client):
         json_response = '{"primaryIntent": "turn_off_lights", "secondaryIntents": ["smart_home"], "intentCategory": "command", "confidence": 0.95}'
@@ -276,15 +275,14 @@ class TestAuthorizationHeader:
 
 
 class TestModelRoutingIntegration:
-    def test_each_task_routes_to_configured_model(self, mock_http_client, mock_router):
+    def test_each_task_uses_different_model(self, mock_http_client, mock_router):
         service = AIService(http_client=mock_http_client, router=mock_router)
 
-        # Temporarily the same model for all 4 tasks - see app/config.py for why.
         tasks_and_models = [
             (lambda: service.classify_text("text"), "gemma4:31b-cloud"),
-            (lambda: service.analyze_sentiment("text"), "gemma4:31b-cloud"),
-            (lambda: service.summarize_text("text"), "gemma4:31b-cloud"),
-            (lambda: service.detect_intent("text"), "gemma4:31b-cloud"),
+            (lambda: service.analyze_sentiment("text"), "glm-5.2:cloud"),
+            (lambda: service.summarize_text("text"), "mistral-large-3:675b-cloud"),
+            (lambda: service.detect_intent("text"), "minimax-m3:cloud"),
         ]
 
         responses = [
