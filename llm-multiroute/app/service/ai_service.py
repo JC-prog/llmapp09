@@ -96,8 +96,13 @@ class AIService:
             "- request: the text politely asks someone to do something\n"
             "- command: the text gives a direct order or instruction\n"
             "- statement: the text declares facts or information\n\n"
+            "primaryIntent must be a short, specific description of what the text "
+            "is trying to achieve (e.g. \"booking a flight\", "
+            "\"reporting a billing error\", \"asking for a recipe\"). "
+            "Never use the bare category name (question, request, command, "
+            "statement) as primaryIntent.\n\n"
             "Return JSON in this exact format:\n"
-            '{"primaryIntent": "main_intent", "secondaryIntents": ["intent1", "intent2"], '
+            '{"primaryIntent": "specific_intent", "secondaryIntents": ["intent1", "intent2"], '
             '"intentCategory": "question", "confidence": 0.9}'
         )
         response = self._chat(prompt, model)
