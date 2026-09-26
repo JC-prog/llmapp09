@@ -7,9 +7,9 @@
   ├── test_classify.py        # 5 inputs × 3 metrics = 15 tests
   ├── test_sentiment.py       # 5 inputs × 4 metrics = 20 tests
   ├── test_summarize.py       # 5 inputs × 5 metrics = 25 tests
-  └── test_intent.py          # 8 inputs × 4 metrics = 32 tests
+  └── test_intent.py          # 5 inputs × 4 metrics = 20 tests
 
-  Total: 92 evaluation tests across all 4 endpoints.
+  Total: 80 evaluation tests across all 4 endpoints.
 
   Endpoints Covered
   Endpoint: POST /api/ai/classify
@@ -29,7 +29,7 @@
   ────────────────────────────────────────
   Endpoint: POST /api/ai/intent
   Test File: test_intent.py
-  Inputs: 8 (2× question, command, request, statement each)
+  Inputs: 5 (question, 2× command, request, statement)
   Metrics: Schema, Category Accuracy, Primary Intent, Relevancy
   Metrics Used
 

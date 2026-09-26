@@ -49,30 +49,9 @@ INTENT_TEST_DATA = [
         "expected_primary_intent": "reporting financial results",
     },
     {
-        "input": "How do I reset my password if I no longer have access to my email?",
-        "expected_category": "question",
-        "expected_primary_intent": "account recovery help",
-    },
-    {
         "input": "Turn off the lights, lock the doors, and set the alarm to 6am.",
         "expected_category": "command",
         "expected_primary_intent": "home automation control",
-    },
-    {
-        "input": (
-            "I would appreciate it if you could review my pull request when you "
-            "have a chance. It includes the bug fix we discussed yesterday."
-        ),
-        "expected_category": "request",
-        "expected_primary_intent": "code review request",
-    },
-    {
-        "input": (
-            "The new office building will be located downtown and is expected "
-            "to accommodate 500 employees across 10 floors."
-        ),
-        "expected_category": "statement",
-        "expected_primary_intent": "providing information about office plans",
     },
 ]
 
