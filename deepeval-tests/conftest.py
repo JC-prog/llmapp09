@@ -57,7 +57,12 @@ def answer_relevancy_metric():
             "input text. The labels, categories, or analysis in the output "
             "should directly relate to the subject matter of the input. "
             "Structured metadata (labels, categories, confidence scores) that "
-            "accurately describes the input text should be considered relevant."
+            "accurately describes the input text should be considered relevant. "
+            "Judge relevance against the task the output performs: an output does "
+            "not need to name the input's topic if its schema has no field for it "
+            "(e.g. a sentiment result). A 'neutral' sentiment with a near-zero "
+            "score and no emotions is a relevant, accurate result for purely "
+            "factual or logistical text."
         ),
         evaluation_params=[
             LLMTestCaseParams.INPUT,
