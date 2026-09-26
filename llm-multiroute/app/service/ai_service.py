@@ -58,6 +58,14 @@ class AIService:
             "Analyze the sentiment of the following text. "
             "Respond with ONLY valid JSON, no additional text or explanation.\n\n"
             f"Text: {text}\n\n"
+            "Rules:\n"
+            '- overallSentiment is one of "positive", "negative", "neutral", "mixed".\n'
+            "- sentimentScore ranges from -1.0 (very negative) to 1.0 (very positive) "
+            "and must be consistent with overallSentiment: positive > 0.3, "
+            "negative < -0.3, neutral between -0.1 and 0.1, mixed reflects the "
+            "balance of positive and negative content.\n"
+            "- Purely factual, informational, or logistical text with no emotional "
+            'tone is "neutral" with a sentimentScore of 0.0 and an empty emotions list.\n\n'
             "Return JSON in this exact format:\n"
             '{"overallSentiment": "positive", "sentimentScore": 0.8, '
             '"emotions": ["joy", "excitement"], "confidence": 0.9}'
